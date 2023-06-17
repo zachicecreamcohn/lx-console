@@ -5,6 +5,7 @@ import Window from "../../components/Window/Window";
 class WindowManager {
     static windows = [];
     static initializationCount = 0
+    static counter = 0;
 
     // this will hold the state var in the parent component that will mirror the class's windows var.
     // TODO: see if there's another way to deal with this workaround
@@ -26,7 +27,14 @@ class WindowManager {
   
     
     createWindow(title, content=undefined) {
-        const window = <Window title={title+WindowManager.initializationCount}>{content}</Window>;
+
+        const windowId = WindowManager.counter++;
+
+        const window = <Window
+        title={title+WindowManager.initializationCount}
+        windowID={windowId}
+        
+        >{content}</Window>;
         WindowManager.windows.push(window);
 
         if (WindowManager.setWindowsStateVar) {
@@ -41,6 +49,16 @@ class WindowManager {
         }
 
     }
+
+    removeWindowById(id) {
+        WindowManager.windows = WindowManager.windows.filter((window) => window.props.windowID !== id);
+        if (WindowManager.setWindowsStateVar) {
+            WindowManager.setWindowsStateVar((prevState) => prevState.filter((window) => window.props.windowID !== id));
+        }
+    }
+
+
+   
     get windows() {
         return WindowManager.windows;
     }

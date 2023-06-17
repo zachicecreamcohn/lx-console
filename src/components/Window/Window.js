@@ -1,11 +1,14 @@
 import React from "react";
-
+import WindowManager from "../../utils/Windows/WindowManager";
 import styles from "./Window.module.css";
 
 function Window(props) {
 
+    const WM = new WindowManager;
 
-
+    
+    const windowID = props.windowID;
+   
 
     let windowStylesFromProps = {
     }
@@ -21,6 +24,11 @@ function Window(props) {
 
     const title = props.title;
 
+    function close() {
+        WM.removeWindowById(windowID);
+
+    }
+
     
     return (
         <div className={styles.container} style={windowStylesFromProps}>
@@ -34,8 +42,7 @@ function Window(props) {
                 <div className={styles.titleBar}>
                 <div className={styles.title}>{title}</div>
                 <div className={styles.buttons}>
-                    <button className={styles.button}>_</button>
-                    <button className={styles.button}>X</button>
+                    <button className={styles.closeBtn} onClick={close}></button>
                 </div>
                 
             </div>

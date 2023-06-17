@@ -9,23 +9,23 @@ function App() {
 
   const WM = new WindowManager();
   WM.storeWindowsStateVar(windows,setWindows);
-  function testNewWindow(event) {
-    // use cursor position as x/y
-    const cursorX = event.clientX;
-    const cursorY = event.clientY;
+
+
+  function handleBackgroundClick(event) {
+    // make sure click is on main-container, not on a child element
+    if (event.target.className === "main-container") {
+      testNewWindow();
+    }
+  }
+
+
+  function testNewWindow() {
     WM.createWindow(
       "Test Title",
-      cursorX,
-      cursorY,
-      100,
-      200,
       "test content"
     )
   }
 
-  function logWindows() {
-    console.log(WM.windows);
-  }
 
   useEffect(() => {
     console.log("Windows have changed");
@@ -34,15 +34,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className='main-container'>
-
-      <div className='test-floating-menu'>
-      <button onClick={testNewWindow}>Test</button>
-      <button onClick={logWindows}>Log Windows</button>
-      <button onClick={WM.removeAllWindows}>Clear</button>
-      </div>
-
-
+      <div className='main-container' onClick={handleBackgroundClick}>
      {windows}
       </div>
      
